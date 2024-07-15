@@ -7,12 +7,10 @@ import 'classes/classe_calcular.dart' as calc;
 import 'classes/imc_resultado.dart' as res;
 
 void main() {
-  runApp(const IMCCalculatorApp());
+  runApp(IMCCalculatorApp());
 }
 
 class IMCCalculatorApp extends StatelessWidget {
-  const IMCCalculatorApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,14 +18,12 @@ class IMCCalculatorApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const IMCCalculatorPage(),
+      home: IMCCalculatorPage(),
     );
   }
 }
 
 class IMCCalculatorPage extends StatefulWidget {
-  const IMCCalculatorPage({super.key});
-
   @override
   _IMCCalculatorPageState createState() => _IMCCalculatorPageState();
 }
@@ -35,34 +31,52 @@ class IMCCalculatorPage extends StatefulWidget {
 class _IMCCalculatorPageState extends State<IMCCalculatorPage> {
   final _formKey = GlobalKey<FormState>();
   final _nomeController = TextEditingController();
-  final _alturaController = TextEditingController();
-  final _pesoController = TextEditingController();
+  final _heightController = TextEditingController();
+  final _weightController = TextEditingController();
+  final List<String> _results = [];
 
   void _calculateIMC() {
     final String nome = _nomeController.text;
-    final double altura = double.parse(_alturaController.text);
-    final double peso = double.parse(_pesoController.text);
+    final double altura = double.parse(_heightController.text);
+    final double peso = double.parse(_weightController.text);
 
     Pessoa pessoa = Pessoa(nome: nome, altura: altura, peso: peso);
 
     calc.CalcularIMC imcCalculator = calc.CalcularIMC(pessoa: pessoa);
-    final res.ResultadoIMC resultado = imcCalculator.calcularIMC();
+    final res.ResultadoIMC resultado = imcCalculator.calcular();
+
+    setState(() {
+      _results.add(resultado.message);
+    });
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return CustomAlertDialog(
-            message: resultado.message, icon: resultado.icon);
+          message: resultado.message,
+          icon: resultado.icon,
+          results: _results,
+        );
       },
     );
+  }
+
+  void _handleBackFromResults(bool? shouldClear) {
+    if (shouldClear == true) {
+      _nomeController.clear();
+      _heightController.clear();
+      _weightController.clear();
+      setState(() {
+        _results.clear();
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-          title: 'Calculadora de IMC'), // Usando o CustomAppBar
-      backgroundColor: Colors.grey[200], // Cor de fundo
+      appBar: CustomAppBar(title: 'Calculadora de IMC'),
+      backgroundColor: Colors.grey[200],
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -80,9 +94,9 @@ class _IMCCalculatorPageState extends State<IMCCalculatorPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
                 TextField(
-                  controller: _alturaController,
+                  controller: _heightController,
                   decoration: InputDecoration(
                     labelText: 'Altura (cm)',
                     border: OutlineInputBorder(
@@ -91,9 +105,9 @@ class _IMCCalculatorPageState extends State<IMCCalculatorPage> {
                   ),
                   keyboardType: TextInputType.number,
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
                 TextField(
-                  controller: _pesoController,
+                  controller: _weightController,
                   decoration: InputDecoration(
                     labelText: 'Peso (kg)',
                     border: OutlineInputBorder(
@@ -102,7 +116,7 @@ class _IMCCalculatorPageState extends State<IMCCalculatorPage> {
                   ),
                   keyboardType: TextInputType.number,
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
                 CustomButton(
                   text: 'Calcular IMC',
                   onPressed: () {
