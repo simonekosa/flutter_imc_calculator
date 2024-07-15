@@ -36,10 +36,14 @@
 ## Capturas de Tela
 
 ### Tela Inicial
-![Tela Inicial](imagens/telainicial.png)
-
-### Resultado do IMC
+![Tela Inicial](imagens/telainicial.png) 
 ![Resultado do IMC](imagens/mensagem.png)
+
+### Exibindo Resultado Em lista
+![Resultado do IMC](imagens/listview.png)
+![Resultado do IMC](imagens/alertdialog.png)
+
+
 
 ## Contribuições
 
