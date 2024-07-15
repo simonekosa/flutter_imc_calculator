@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'pessoa.dart'; // Importando a classe Pessoa
-import 'imc_resultado.dart'; // Importando ResultadoIMC
+import 'pessoa.dart';
+import 'imc_resultado.dart';
 
 class CalcularIMC {
   final Pessoa pessoa;
 
   CalcularIMC({required this.pessoa});
 
-  ResultadoIMC calcularIMC() {
+  ResultadoIMC calcular() {
     final double alturaEmMetros = pessoa.altura / 100;
     final double imc = pessoa.peso / (alturaEmMetros * alturaEmMetros);
 

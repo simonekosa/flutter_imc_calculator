@@ -5,7 +5,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;
 
   const CustomAppBar(
-      {super.key, required this.title, this.height = kToolbarHeight});
+      {Key? key, required this.title, this.height = kToolbarHeight})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       child: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop(true); // Passa 'true' ao voltar
+          },
+        ),
         title: Text(
           title,
           style:
