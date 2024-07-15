@@ -25,7 +25,7 @@ class _ResultScreenState extends State<ResultScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Confirmar Exclusão'),
-          content: Text('Você tem certeza que deseja excluir este item?'),
+          content: Text('Você tem certeza que deseja excluir esta informação?'),
           actions: [
             TextButton(
               onPressed: () {
